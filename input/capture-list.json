@@ -3,6 +3,10 @@
 		{
 			"url" : "http://google.com",
 			"file": "google.png"
-		}
+		},
+        {
+            "url": "http://yahoo.co.jp",
+            "file": "yahoo.png"
+        }
 	]
 }

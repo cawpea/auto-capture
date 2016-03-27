@@ -1,12 +1,12 @@
 var AUTO_CAPTURE = {
 	CONF: {
 		DEST: './image',
-		WAIT_TIME: 1000
+		WAIT_TIME: 1
 	},
 	DEVICE: {
 		PC: {
 			folder: '/pc',
-			ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A405 Safari/600.1.4',
+			ua: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.63 Safari/537.36',
 			width: 1280,
 			height: 900
 		},
@@ -74,9 +74,9 @@ var AUTO_CAPTURE = {
 					});
 					var statusCode = response.status;
 					if( statusCode === 200 ) {
-						this.echo('GET: capture page title is "' + this.getTitle() + '".');
+						this.echo('GET: capture the "' + url + '".');
 					}else {
-						this.echo('ERROR: couldn\'t capture of "' + url + '".' );
+						this.echo('ERROR: couldn\'t capture the "' + url + '".' );
 					}
 				});
 				casper.wait( _this.CONF.WAIT_TIME, function () {
