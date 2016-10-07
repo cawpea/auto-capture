@@ -1,23 +1,23 @@
 var AUTO_CAPTURE = {
 	CONF: {
-		DEST: './image',
+		DEST: './output',
 		WAIT_TIME: 1
 	},
 	DEVICE: {
 		PC: {
-			folder: '/pc',
+			type: 'pc',
 			ua: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.63 Safari/537.36',
 			width: 1280,
 			height: 900
 		},
 		SP: {
-			folder: '/sp',
+			type: 'sp',
 			ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A405 Safari/600.1.4',
 			width: 320,
 			height: 568
 		},
 		TABLET: {
-			folder: '/tablet',
+			type: 'tablet',
 			ua: 'Mozilla/5.0 (iPad; CPU OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A405 Safari/600.1.4',
 			width: 768,
 			height: 1024
@@ -32,7 +32,7 @@ var AUTO_CAPTURE = {
 			clientScripts: ['./lib/jquery-1.12.2.min.js']
 		});
 		this.links = require('./input/capture-list.json');
-		this.captureTarget = this.links.captureTarget;
+		this.captureTarget = this.links.captureTarget[0];
 		this.basicId = this.casper.cli.options.id;
 		this.basicPass = this.casper.cli.options.pass;
 		this.deviceType;
@@ -64,10 +64,10 @@ var AUTO_CAPTURE = {
 		}
 
 		this.casper.each(
-			this.captureTarget,
+			this.captureTarget[this.deviceType.type],
 			function ( casper, link ) {
-				var url = link.url;
-				var file = link.file;
+				var url = link;
+				var file = _this.getFileNameFromURL(url) + '.png';
 				casper.thenOpen( url, function ( response ) {
 					casper.evaluate( function () {
 						$('body').css('background-color', '#FFF');
@@ -80,11 +80,14 @@ var AUTO_CAPTURE = {
 					}
 				});
 				casper.wait( _this.CONF.WAIT_TIME, function () {
-					casper.capture( _this.CONF.DEST + _this.deviceType.folder + '/' + file );
+					casper.capture( _this.CONF.DEST + '/' + _this.deviceType.type + '/' + file );
 				});
 			}
 		);
 		this.casper.run();
+	},
+	getFileNameFromURL: function(url) {
+		return url.match(".+/(.+?)\.[a-z]+([\?#;].*)?$")[1];
 	}
 };
 AUTO_CAPTURE.init();

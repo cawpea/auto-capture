@@ -7,7 +7,6 @@ AUTO_CAPTUER.MakeCaptureList = function () {
 };
 AUTO_CAPTUER.MakeCaptureList.prototype = {
 	CONF: {
-		ROOT_PATH: __dirname + '/../../..',
 		INPUT_PATH: '/src/',
 		INPUT_EXTENSION: '.html',
 		DEST_NAME: __dirname + '/../input/capture-list.json',
@@ -33,7 +32,8 @@ AUTO_CAPTUER.MakeCaptureList.prototype = {
 	},
 	setParameters: function () {
 		this.readFilePath = process.argv[2] || this.CONF.ROOT_PATH + this.CONF.INPUT_PATH;
-		this.prefix = process.argv[3] || this.CONF.ROOT_PATH;
+		this.replacePattern = process.argv[3];
+		this.replaceStr = process.argv[4] || '';
 		this.files = [];
 	},
 	validateInput: function () {
@@ -99,8 +99,8 @@ AUTO_CAPTUER.MakeCaptureList.prototype = {
 					next();
 					return;
 				}
-				if( _this.prefix !== undefined ) {
-					value = value.replace( _this.prefix, '' );
+				if( _this.replacePattern !== undefined ) {
+					value = value.replace( _this.replacePattern, _this.replaceStr );
 					relativePath.push( value );
 				}
 				next();
@@ -119,9 +119,10 @@ AUTO_CAPTUER.MakeCaptureList.prototype = {
 
 		for( var key in this.CONF.DEST_FORMAT ) {
 			var targetPath = dataFormat[key];
-			var targetPathList = pathList.filter(function ( value ) {
-				return value.indexOf( targetPath ) > -1;
-			});
+			// var targetPathList = pathList.filter(function ( value ) {
+			// 	return value.indexOf( targetPath ) > -1;
+			// });
+			var targetPathList = pathList;
 
 			dataFormat[key] = targetPathList;
 		}

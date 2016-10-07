@@ -1,12 +1,18 @@
 {
 	"captureTarget": [
-		{
-			"url" : "http://google.com",
-			"file": "google.png"
-		},
-        {
-            "url": "http://yahoo.co.jp",
-            "file": "yahoo.png"
-        }
+    {
+      "pc": [
+        "https://www.google.co.jp",
+        "http://www.yahoo.co.jp"
+      ],
+      "sp": [
+        "https://www.google.co.jp",
+        "http://www.yahoo.co.jp"
+      ],
+      "tablet": [
+        "https://www.google.co.jp",
+        "http://www.yahoo.co.jp"
+      ]
+    }
 	]
 }
